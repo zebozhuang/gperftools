@@ -87,13 +87,13 @@ extern "C" {
   PERFTOOLS_DLL_DECL const char* tc_version(int* major, int* minor,
                                             const char** patch) PERFTOOLS_NOTHROW;
 
-  PERFTOOLS_DLL_DECL void* tc_malloc(size_t size) PERFTOOLS_NOTHROW;
+  PERFTOOLS_DLL_DECL void* tc_malloc(size_t size) PERFTOOLS_NOTHROW;  // 申请内存
   PERFTOOLS_DLL_DECL void* tc_malloc_skip_new_handler(size_t size) PERFTOOLS_NOTHROW;
-  PERFTOOLS_DLL_DECL void tc_free(void* ptr) PERFTOOLS_NOTHROW;
-  PERFTOOLS_DLL_DECL void tc_free_sized(void *ptr, size_t size) PERFTOOLS_NOTHROW;
-  PERFTOOLS_DLL_DECL void* tc_realloc(void* ptr, size_t size) PERFTOOLS_NOTHROW;
-  PERFTOOLS_DLL_DECL void* tc_calloc(size_t nmemb, size_t size) PERFTOOLS_NOTHROW;
-  PERFTOOLS_DLL_DECL void tc_cfree(void* ptr) PERFTOOLS_NOTHROW;
+  PERFTOOLS_DLL_DECL void tc_free(void* ptr) PERFTOOLS_NOTHROW;   // 释放内存
+  PERFTOOLS_DLL_DECL void tc_free_sized(void *ptr, size_t size) PERFTOOLS_NOTHROW;  // 释放固定大小内存
+  PERFTOOLS_DLL_DECL void* tc_realloc(void* ptr, size_t size) PERFTOOLS_NOTHROW;    // 重新申请内存
+  PERFTOOLS_DLL_DECL void* tc_calloc(size_t nmemb, size_t size) PERFTOOLS_NOTHROW;  // 申请内存，初始化为0
+  PERFTOOLS_DLL_DECL void tc_cfree(void* ptr) PERFTOOLS_NOTHROW;                    // 释放内存
 
   PERFTOOLS_DLL_DECL void* tc_memalign(size_t __alignment,
                                        size_t __size) PERFTOOLS_NOTHROW;

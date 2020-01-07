@@ -75,6 +75,7 @@ __thread ThreadCache::ThreadLocalData ThreadCache::threadlocal_data_
 bool ThreadCache::tsd_inited_ = false;
 pthread_key_t ThreadCache::heap_key_;
 
+// 初始化, 传入线程id
 void ThreadCache::Init(pthread_t tid) {
   size_ = 0;
 
@@ -94,6 +95,7 @@ void ThreadCache::Init(pthread_t tid) {
   prev_ = NULL;
   tid_  = tid;
   in_setspecific_ = false;
+  // 初始化各个类大小
   for (uint32 cl = 0; cl < Static::num_size_classes(); ++cl) {
     list_[cl].Init(Static::sizemap()->class_to_size(cl));
   }
@@ -103,6 +105,7 @@ void ThreadCache::Init(pthread_t tid) {
   sampler_.Init(sampler_seed);
 }
 
+// 把没有用的内存放回central
 void ThreadCache::Cleanup() {
   // Put unused memory back into central cache
   for (uint32 cl = 0; cl < Static::num_size_classes(); ++cl) {
@@ -112,6 +115,7 @@ void ThreadCache::Cleanup() {
   }
 }
 
+// 从central拿相应的class到本地localcache
 // Remove some objects of class "cl" from central cache and add to thread heap.
 // On success, return the first object for immediate use; otherwise return NULL.
 void* ThreadCache::FetchFromCentralCache(uint32 cl, int32_t byte_size,
@@ -157,6 +161,7 @@ void* ThreadCache::FetchFromCentralCache(uint32 cl, int32_t byte_size,
   return start;
 }
 
+// ?
 void ThreadCache::ListTooLong(FreeList* list, uint32 cl) {
   size_ += list->object_size();
 
@@ -187,6 +192,8 @@ void ThreadCache::ListTooLong(FreeList* list, uint32 cl) {
   }
 }
 
+
+// 从本地堆缓存释放对象到central缓存
 // Remove some objects of class "cl" from thread heap and add to central cache
 void ThreadCache::ReleaseToCentralCache(FreeList* src, uint32 cl, int N) {
   ASSERT(src == &list_[cl]);
@@ -208,6 +215,7 @@ void ThreadCache::ReleaseToCentralCache(FreeList* src, uint32 cl, int N) {
   size_ -= delta_bytes;
 }
 
+// 释放空闲内存到central缓存
 // Release idle memory to the central cache
 void ThreadCache::Scavenge() {
   // If the low-water mark for the free list is L, it means we would

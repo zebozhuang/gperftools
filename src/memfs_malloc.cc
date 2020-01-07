@@ -30,7 +30,7 @@
 
 // ---
 // Author: Arun Sharma
-//
+// 基于 tmpfs hugetlbfs的内存申请器
 // A tcmalloc system allocator that uses a memory based filesystem such as
 // tmpfs or hugetlbfs
 //
@@ -86,6 +86,7 @@ DEFINE_bool(memfs_malloc_map_private,
             EnvToBool("TCMALLOC_MEMFS_MAP_PRIVATE", false),
 	    "Use MAP_PRIVATE with mmap");
 
+// Hugetlbfs申请器
 // Hugetlbfs based allocator for tcmalloc
 class HugetlbSysAllocator: public SysAllocator {
 public:

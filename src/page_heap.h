@@ -113,23 +113,23 @@ template <> class MapSelector<32> {
 
 class PERFTOOLS_DLL_DECL PageHeap {
  public:
-  PageHeap();
+  PageHeap();  // 初始化
 
   // Allocate a run of "n" pages.  Returns zero if out of memory.
   // Caller should not pass "n == 0" -- instead, n should have
   // been rounded up already.
-  Span* New(Length n);
+  Span* New(Length n);  // 创建span
 
   // Delete the span "[p, p+n-1]".
   // REQUIRES: span was returned by earlier call to New() and
   //           has not yet been deleted.
-  void Delete(Span* span);
+  void Delete(Span* span);    // 删除 span
 
   // Mark an allocated span as being used for small objects of the
   // specified size-class.
   // REQUIRES: span was returned by an earlier call to New()
   //           and has not yet been deleted.
-  void RegisterSizeClass(Span* span, uint32 sc);
+  void RegisterSizeClass(Span* span, uint32 sc); //
 
   // Split an allocated span into two spans: one of length "n" pages
   // followed by another span of length "span->length - n" pages.
@@ -139,7 +139,7 @@ class PERFTOOLS_DLL_DECL PageHeap {
   // REQUIRES: "0 < n < span->length"
   // REQUIRES: span->location == IN_USE
   // REQUIRES: span->sizeclass == 0
-  Span* Split(Span* span, Length n);
+  Span* Split(Span* span, Length n); // 分开
 
   // Return the descriptor for the specified page.  Returns NULL if
   // this PageID was not allocated previously.
@@ -152,7 +152,7 @@ class PERFTOOLS_DLL_DECL PageHeap {
   // store info about the range in *r and return true.  Else return false.
   bool GetNextRange(PageID start, base::MallocRange* r);
 
-  // Page heap statistics
+  // Page heap statistics  // 计数
   struct Stats {
     Stats() : system_bytes(0), free_bytes(0), unmapped_bytes(0), committed_bytes(0),
         scavenge_count(0), commit_count(0), total_commit_bytes(0),

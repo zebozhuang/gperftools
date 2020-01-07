@@ -110,7 +110,7 @@ Span* PageHeap::SearchFreeAndLargeLists(Length n) {
 
 static const size_t kForcedCoalesceInterval = 128*1024*1024;
 
-Span* PageHeap::New(Length n) {
+Span* PageHeap::New(Length n) { // 申请堆内存
   ASSERT(Check());
   ASSERT(n > 0);
 

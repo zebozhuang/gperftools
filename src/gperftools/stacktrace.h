@@ -76,6 +76,7 @@
 // Stack frame sizes of 0 or less indicate that those frame sizes couldn't
 // be identified.
 //
+// 栈追踪
 // This routine may return fewer stack frame entries than are
 // available. Also note that "result" and "sizes" must both be non-NULL.
 extern PERFTOOLS_DLL_DECL int GetStackFrames(void** result, int* sizes, int max_depth,

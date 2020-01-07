@@ -96,10 +96,10 @@ extern "C" {
   PERFTOOLS_DLL_DECL void tc_cfree(void* ptr) PERFTOOLS_NOTHROW;                    // 释放内存
 
   PERFTOOLS_DLL_DECL void* tc_memalign(size_t __alignment,
-                                       size_t __size) PERFTOOLS_NOTHROW;
+                                       size_t __size) PERFTOOLS_NOTHROW;            // 内存对齐
   PERFTOOLS_DLL_DECL int tc_posix_memalign(void** ptr,
                                            size_t align, size_t size) PERFTOOLS_NOTHROW;
-  PERFTOOLS_DLL_DECL void* tc_valloc(size_t __size) PERFTOOLS_NOTHROW;
+  PERFTOOLS_DLL_DECL void* tc_valloc(size_t __size) PERFTOOLS_NOTHROW;              // 申请对齐内存
   PERFTOOLS_DLL_DECL void* tc_pvalloc(size_t __size) PERFTOOLS_NOTHROW;
 
   PERFTOOLS_DLL_DECL void tc_malloc_stats(void) PERFTOOLS_NOTHROW;

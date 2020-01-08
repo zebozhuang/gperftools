@@ -43,15 +43,15 @@ using std::min;
 using std::max;
 
 namespace tcmalloc {
-
+// central列表
 void CentralFreeList::Init(size_t cl) {
-  size_class_ = cl;
+  size_class_ = cl;  // 初始化 内存类别
   tcmalloc::DLL_Init(&empty_);
   tcmalloc::DLL_Init(&nonempty_);
   num_spans_ = 0;
   counter_ = 0;
 
-  max_cache_size_ = kMaxNumTransferEntries;
+  max_cache_size_ = kMaxNumTransferEntries; // 最大缓存大小
 #ifdef TCMALLOC_SMALL_BUT_SLOW
   // Disable the transfer cache for the small footprint case.
   cache_size_ = 0;
@@ -62,8 +62,8 @@ void CentralFreeList::Init(size_t cl) {
     // Limit the maximum size of the cache based on the size class.  If this
     // is not done, large size class objects will consume a lot of memory if
     // they just sit in the transfer cache.
-    int32_t bytes = Static::sizemap()->ByteSizeForClass(cl);
-    int32_t objs_to_move = Static::sizemap()->num_objects_to_move(cl);
+    int32_t bytes = Static::sizemap()->ByteSizeForClass(cl); // 获取对应规格的大小内存
+    int32_t objs_to_move = Static::sizemap()->num_objects_to_move(cl); // 获取规格个数
 
     ASSERT(objs_to_move > 0 && bytes > 0);
     // Limit each size class cache to at most 1MB of objects or one entry,
@@ -79,6 +79,7 @@ void CentralFreeList::Init(size_t cl) {
   ASSERT(cache_size_ <= max_cache_size_);
 }
 
+// 释放列表到Span
 void CentralFreeList::ReleaseListToSpans(void* start) {
   while (start) {
     void *next = SLL_Next(start);
@@ -101,6 +102,7 @@ Span* MapObjectToSpan(void* object) {
   return span;
 }
 
+// 释放内存
 void CentralFreeList::ReleaseToSpans(void* object) {
   Span* span = MapObjectToSpan(object);
   ASSERT(span != NULL);
